@@ -2,6 +2,11 @@
 # Based on ansible-lint config
 extends: default
 
+# https://github.com/ansible-community/molecule/issues/1466#issuecomment-418883318
+# Ignore virtualenv lib/ inside directory
+ignore: |
+  **/lib/
+
 rules:
   braces:
     max-spaces-inside: 1
