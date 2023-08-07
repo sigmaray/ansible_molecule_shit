@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include sigmaray.ansible_molecule_shit"
+      include_role:
+        name: "sigmaray.ansible_molecule_shit"
