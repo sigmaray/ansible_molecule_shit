@@ -29,4 +29,4 @@ jobs:
         run: ansible-galaxy collection install community.docker
 
       - name: Run molecule
-        run: "cd ansible/molecule/molecule_test_role && molecule test"
+        run: "molecule test"
