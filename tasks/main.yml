@@ -1,2 +1,28 @@
 ---
-# tasks file for ansible_molecule_shit
+- name: Remove transmission packages
+  ansible.builtin.apt: pkg={{item}} state=absent
+  with_items:
+    - transmission
+    - transmission-common
+    - transmission-gtk
+- name: Install a list of packages
+  apt:
+    update_cache: yes
+    pkg:
+      - gcc
+      - make
+      - perl
+      - git
+      - gitk
+      - curl
+      - mc
+      - vlc
+      - telegram-desktop
+      - obs-studio
+      - flameshot
+      - deluge
+      - ncdu
+      - remmina
+      - docker
+      - docker-compose
+      - podman
