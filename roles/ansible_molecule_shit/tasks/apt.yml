@@ -28,3 +28,5 @@
       - docker
       - docker-compose
       - podman
+      - virtualbox # doesn't work in debian
+      - virtualbox—ext–pack # doesn't work in debian
