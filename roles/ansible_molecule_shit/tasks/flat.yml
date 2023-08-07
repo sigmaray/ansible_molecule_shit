@@ -1,35 +1,42 @@
 ---
 - name: Flatpak present
+  become: true
   ansible.builtin.apt:
     name: flatpak
     state: present
 - name: Flathub flatpak repo
+  become: true
   community.general.flatpak_remote:
     name: flathub
     state: present
     flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
     method: system
 - name: Install Zoom via flatpak
+  become: true
   community.general.flatpak:
     name: us.zoom.Zoom
     state: present
     method: system
 - name: Onstall Slack via flatpak
+  become: true
   community.general.flatpak:
     name: com.slack.Slack
     state: present
     method: system
 - name: Install Viber via flatpak
+  become: true
   community.general.flatpak:
     name: com.viber.Viber
     state: present
     method: system
 - name: Install Compass via flatpak
+  become: true
   community.general.flatpak:
     name: com.mongodb.Compass
     state: present
     method: system
 - name: Install Dropbox via flatpak
+  become: true
   community.general.flatpak:
     name: com.dropbox.Client
     state: present
