@@ -1,9 +1,8 @@
-# ---
-
-# - include_tasks: etckeeper.yml
-
-# - include_tasks: apt.yml
-
-# - include_tasks: flat.yml
-
-# - include_tasks: chrome.yml
+---
+- include_tasks: etckeeper.yml
+- include_tasks: apt.yml
+- include_tasks: flat.yml
+- include_tasks: chrome.yml
+- include_tasks: asdf.yml
+- include_tasks: fetch-my-own-tools.yml
+- include_tasks: pgadmin.yml

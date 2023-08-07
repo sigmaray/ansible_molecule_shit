@@ -1,0 +1,35 @@
+---
+- name: Creates directory
+  file:
+    path: "{{ ansible_env.HOME }}/r/stable"
+    state: directory
+
+- name: fetch pyqtstopwatch from github
+  git:
+    repo: https://github.com/sigmaray/pyqtstopwatch.git
+    dest: "{{ ansible_env.HOME }}/r/stable/pyqtstopwatch"
+
+- name: pip install
+  pip:
+    requirements: "{{ ansible_env.HOME }}/r/stable/pyqtstopwatch/requirements.txt"
+    # virtualenv: "{{ ansible_env.HOME }}/r/stable/pyqtstopwatch/.venv"
+
+- name: fetch pyqtsnake from github
+  git:
+    repo: https://github.com/sigmaray/pyqtsnake.git
+    dest: "{{ ansible_env.HOME }}/r/stable/pyqtsnake"
+
+- name: pip install
+  pip:
+    requirements: "{{ ansible_env.HOME }}/r/stable/pyqtsnake/requirements.txt"
+    # virtualenv: "{{ ansible_env.HOME }}/r/stable/pyqtsnake/.venv"
+
+- name: fetch multistopwatch from github
+  git:
+    repo: https://github.com/sigmaray/multistopwatch.git
+    dest: "{{ ansible_env.HOME }}/r/stable/multistopwatch"
+
+- name: pip install
+  pip:
+    requirements: "{{ ansible_env.HOME }}/r/stable/multistopwatch/requirements.txt"
+    # virtualenv: "{{ ansible_env.HOME }}/r/stable/multistopwatch/.venv"

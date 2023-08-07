@@ -1,0 +1,27 @@
+- name: ASDF
+  hosts: localhost
+  become: false
+  tasks:
+    - name: Install ASDF
+      shell: >
+        git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.10.2 && echo ". $HOME/.asdf/asdf.sh" >> ~/.bashrc
+      args:
+        executable: /bin/bash
+        chdir: "$HOME"
+        creates: "$HOME/.asdf/asdf.sh"
+    - name: Install erlang
+      become: no
+      ansible.builtin.shell: >
+        /bin/bash -c ". $HOME/.asdf/asdf.sh && asdf plugin add erlang && asdf install erlang 26.0 && asdf global erlang 26.0"
+      args:
+        executable: /bin/bash
+        chdir: "{{ ansible_env.HOME }}"
+        creates: "{{ ansible_env.HOME }}/.asdf/installs/erlang/26.0/"
+    - name: Install elixir
+      become: no
+      ansible.builtin.shell: >
+        /bin/bash -c ". $HOME/.asdf/asdf.sh && asdf plugin add elixir && asdf install elixir 1.14.5-otp-26 && asdf global elixir 1.14.5-otp-26"  
+      args:
+        executable: /bin/bash
+        chdir: "{{ ansible_env.HOME }}"
+        creates: "{{ ansible_env.HOME }}/.asdf/installs/elixir/1.14.5-otp-26/"
