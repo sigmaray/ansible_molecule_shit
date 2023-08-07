@@ -1,22 +1,22 @@
 ---
 # This is an example playbook to execute Ansible tests.
 
-# - name: Verify
-#   hosts: all
-#   gather_facts: false
-#   tasks:
-#   - name: Install a list of packages
-#     ansible.builtin.apt:
-#       update_cache: yes
-#       pkg:
-#         python3-apt
-#   - name: Gather package facts
-#     ansible.builtin.package_facts:
-#       manager: apt
-#   - name: Example assertion
-#     ansible.builtin.assert:
-#       that: '"{{ item }}" in ansible_facts.packages'
-#     loop:
-#       # - python3
-#       # - perl
-#       # - pgadmin4
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Install a list of packages
+    ansible.builtin.apt:
+      update_cache: yes
+      pkg:
+        python3-apt
+  - name: Gather package facts
+    ansible.builtin.package_facts:
+      manager: apt
+  - name: Example assertion
+    ansible.builtin.assert:
+      that: '"{{ item }}" in ansible_facts.packages'
+    loop:
+      - python3
+      - perl
+      # - pgadmin4
