@@ -1,0 +1,13 @@
+---
+- name: Install etckeeper.
+  apt:
+    name: etckeeper
+    state: present
+    install_recommends: no
+    update_cache: yes
+
+- name:  Initialize etckeeper repository.
+  shell: etckeeper init
+  args:
+    chdir: /etc/
+    creates: /etc/.etckeeper

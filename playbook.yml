@@ -1,0 +1,22 @@
+# ---
+# - hosts: localhost
+#   become: true
+#   # roles:
+#   #   role: .
+#   # tasks_from: login
+
+#   tasks:
+#     - include_role:
+#       name: ansible_molecule_shit
+#       # tasks_from: chrome
+
+
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: do something
+      include_role:
+        name: ansible_molecule_shit
+        tasks_from: print
+  
