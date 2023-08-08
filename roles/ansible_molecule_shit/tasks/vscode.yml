@@ -21,11 +21,11 @@
 
 - name: Install deps
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
     pkg:
       - wget
-      - gpg 
-      - ca-certificates   
+      - gpg
+      - ca-certificates
       - apt-transport-https
 
 - name: Create APT keyrings dir
@@ -41,7 +41,7 @@
     url: 'https://packages.microsoft.com/keys/microsoft.asc'
     dest: '/etc/apt/keyrings/'
     mode: 'u=rw,go=r'
-    force: yes
+    force: true
 
 - name: Install VS Code repo (apt)
   become: true
@@ -56,26 +56,3 @@
   ansible.builtin.apt:
     name: code
     state: present
-###############3
-
-# ---
-
-# - name: Add Apt signing key
-#   shell: >
-# - name: Add repository into sources list
-#   ansible.builtin.apt_repository:
-#     repo: deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
-#     state: present
-#     filename: google-chrome
-# - name: Install google-chrome-stable
-#   apt:
-#     pkg:
-#       - google-chrome-stable
-#       - google-chrome-beta
-
-
-# sudo apt-get install wget gpg
-# wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-# sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-# sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-# rm -f packages.microsoft.gpg

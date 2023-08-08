@@ -9,7 +9,7 @@
     - transmission-gtk
 - name: Install a list of packages
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
     pkg:
       - gcc
       - make

@@ -12,11 +12,10 @@
 
 
 ---
-- hosts: localhost
-  gather_facts: no
+- name: Include entire ansible_molecule_shit role
+  hosts: localhost
+  gather_facts: false
   tasks:
-    - name: do something
-      include_role:
+    - name: Include role
+      ansible.builtin.include_role:
         name: ansible_molecule_shit
-        tasks_from: print
-  

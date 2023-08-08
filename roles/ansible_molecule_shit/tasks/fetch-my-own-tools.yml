@@ -1,35 +1,51 @@
 ---
-- name: Creates directory
-  file:
-    path: "{{ ansible_env.HOME }}/r/stable"
-    state: directory
 
-- name: fetch pyqtstopwatch from github
-  git:
-    repo: https://github.com/sigmaray/pyqtstopwatch.git
-    dest: "{{ ansible_env.HOME }}/r/stable/pyqtstopwatch"
+- name: Check if directory exists
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/r/stable/pyqtstopwatch"
+  register: dir_data
 
-- name: pip install
-  pip:
-    requirements: "{{ ansible_env.HOME }}/r/stable/pyqtstopwatch/requirements.txt"
-    # virtualenv: "{{ ansible_env.HOME }}/r/stable/pyqtstopwatch/.venv"
+- name: Fetch and setup tools
+  when: not dir_data.exists
+  block:
+    - name: Creates directory
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/r/stable"
+        state: directory
+        mode: "0600"
 
-- name: fetch pyqtsnake from github
-  git:
-    repo: https://github.com/sigmaray/pyqtsnake.git
-    dest: "{{ ansible_env.HOME }}/r/stable/pyqtsnake"
+    - name: Fetch pyqtstopwatch from github
+      ansible.builtin.git:
+        repo: https://github.com/sigmaray/pyqtstopwatch.git
+        dest: "{{ ansible_env.HOME }}/r/stable/pyqtstopwatch"
+      tags:
+        - skip_ansible_lint
 
-- name: pip install
-  pip:
-    requirements: "{{ ansible_env.HOME }}/r/stable/pyqtsnake/requirements.txt"
-    # virtualenv: "{{ ansible_env.HOME }}/r/stable/pyqtsnake/.venv"
+    - name: Do pip install
+      ansible.builtin.pip:
+        requirements: "{{ ansible_env.HOME }}/r/stable/pyqtstopwatch/requirements.txt"
+        # virtualenv: "{{ ansible_env.HOME }}/r/stable/pyqtstopwatch/.venv"
 
-- name: fetch multistopwatch from github
-  git:
-    repo: https://github.com/sigmaray/multistopwatch.git
-    dest: "{{ ansible_env.HOME }}/r/stable/multistopwatch"
+    - name: Fetch pyqtsnake from github
+      ansible.builtin.git:
+        repo: https://github.com/sigmaray/pyqtsnake.git
+        dest: "{{ ansible_env.HOME }}/r/stable/pyqtsnake"
+      tags:
+        - skip_ansible_lint
 
-- name: pip install
-  pip:
-    requirements: "{{ ansible_env.HOME }}/r/stable/multistopwatch/requirements.txt"
-    # virtualenv: "{{ ansible_env.HOME }}/r/stable/multistopwatch/.venv"
+    - name: Do pip install
+      ansible.builtin.pip:
+        requirements: "{{ ansible_env.HOME }}/r/stable/pyqtsnake/requirements.txt"
+        # virtualenv: "{{ ansible_env.HOME }}/r/stable/pyqtsnake/.venv"
+
+    - name: Fetch multistopwatch from github
+      ansible.builtin.git:
+        repo: https://github.com/sigmaray/multistopwatch.git
+        dest: "{{ ansible_env.HOME }}/r/stable/multistopwatch"
+      tags:
+        - skip_ansible_lint
+
+    - name: Do pip install
+      ansible.builtin.pip:
+        requirements: "{{ ansible_env.HOME }}/r/stable/multistopwatch/requirements.txt"
+        # virtualenv: "{{ ansible_env.HOME }}/r/stable/multistopwatch/.venv"

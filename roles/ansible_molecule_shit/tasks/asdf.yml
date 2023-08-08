@@ -1,6 +1,7 @@
+---
 - name: ASDF dps
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
     pkg:
       - git
       - curl
@@ -10,15 +11,17 @@
       - unzip
 - name: Install ASDF
   become: false
-  shell: >
+  ansible.builtin.shell: >
     git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.10.2 && echo ". $HOME/.asdf/asdf.sh" >> ~/.bashrc
   args:
     executable: /bin/bash
     chdir: "$HOME"
     creates: "$HOME/.asdf/asdf.sh"
+  tags:
+    - skip_ansible_lint
 - name: Install erlang
   become: false
-  ansible.builtin.shell: >    
+  ansible.builtin.shell: >
     /bin/bash -c ". $HOME/.asdf/asdf.sh && asdf plugin add erlang && asdf install erlang latest"
   args:
     executable: /bin/bash
@@ -26,15 +29,15 @@
     creates: "{{ ansible_env.HOME }}/.asdf/installs/erlang"
 - name: Install elixir
   become: false
-  ansible.builtin.shell: >    
-    /bin/bash -c ". $HOME/.asdf/asdf.sh && asdf plugin add elixir && asdf install elixir latest"  
+  ansible.builtin.shell: >
+    /bin/bash -c ". $HOME/.asdf/asdf.sh && asdf plugin add elixir && asdf install elixir latest"
   args:
     executable: /bin/bash
     chdir: "{{ ansible_env.HOME }}"
     creates: "{{ ansible_env.HOME }}/.asdf/installs/elixir/"
 - name: Install Node.js
   become: false
-  ansible.builtin.shell: >    
+  ansible.builtin.shell: >
     /bin/bash -c ". $HOME/.asdf/asdf.sh && asdf plugin add nodejs && asdf install nodejs latest"
   args:
     executable: /bin/bash
@@ -43,7 +46,7 @@
 - name: Install Ruby
   become: false
   ansible.builtin.shell: >
-    /bin/bash -c ". $HOME/.asdf/asdf.sh && asdf plugin add ruby && asdf install ruby latest"  
+    /bin/bash -c ". $HOME/.asdf/asdf.sh && asdf plugin add ruby && asdf install ruby latest"
   args:
     executable: /bin/bash
     chdir: "{{ ansible_env.HOME }}"

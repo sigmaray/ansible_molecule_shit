@@ -1,13 +1,13 @@
 ---
 - name: Install etckeeper.
-  apt:
+  ansible.builtin.apt:
     name: etckeeper
     state: present
-    install_recommends: no
-    update_cache: yes
+    install_recommends: false
+    update_cache: true
 
-- name:  Initialize etckeeper repository.
-  shell: etckeeper init
+- name: Initialize etckeeper repository.
+  ansible.builtin.shell: etckeeper init
   args:
     chdir: /etc/
     creates: /etc/.etckeeper

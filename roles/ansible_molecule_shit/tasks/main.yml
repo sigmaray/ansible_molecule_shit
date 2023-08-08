@@ -1,9 +1,17 @@
 ---
-- include_tasks: etckeeper.yml
-- include_tasks: apt.yml
-- include_tasks: flat.yml
-- include_tasks: vscode.yml
-- include_tasks: chrome.yml
-- include_tasks: asdf.yml
-- include_tasks: fetch-my-own-tools.yml
-- include_tasks: pgadmin.yml
+- name: Include etckeeper.yml
+  ansible.builtin.include_tasks: etckeeper.yml
+- name: Include apt.yml
+  ansible.builtin.include_tasks: apt.yml
+- name: Include flat.yml
+  ansible.builtin.include_tasks: flat.yml
+- name: Include vscode.yml
+  ansible.builtin.include_tasks: vscode.yml
+- name: Include chrome.yml
+  ansible.builtin.include_tasks: chrome.yml
+- name: Include asdf.yml
+  ansible.builtin.include_tasks: asdf.yml
+- name: Include fetch-my-own-tools.yml
+  ansible.builtin.include_tasks: fetch-my-own-tools.yml
+- name: Include pgadmin.yml
+  ansible.builtin.include_tasks: pgadmin.yml

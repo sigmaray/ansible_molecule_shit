@@ -3,23 +3,29 @@
 #   apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc state=present
 #   become: yes
 # - name: Add Postgres repo to sources list
-#   apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt {{ ansible_distribution_release }}-pgdg main' state=present      
+#   apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt {{ ansible_distribution_release }}-pgdg main' state=present
 #   become: yes
 
 - name: Install curl
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
     pkg:
       - curl
 - name: Install key
-  shell: >
+  ansible.builtin.shell: |
+    set -o pipefail
     curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/packages-pgadmin-org.gpg
   args:
     creates: "/usr/share/keyrings/packages-pgadmin-org.gpg"
 - name: Add Postgres repo to sources list
-  apt_repository: repo='deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/{{ ansible_distribution_release }} pgadmin4 main' state=present
-  # become: yes
+  # become: true
+  ansible.builtin.apt_repository:
+    repo: >
+      deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg]
+      https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/{{ ansible_distribution_release }}
+      pgadmin4 main
+    state: present
 - name: Install a list of packages
-  apt:
+  ansible.builtin.apt:
     pkg:
       - pgadmin4
