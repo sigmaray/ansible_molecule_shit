@@ -27,13 +27,13 @@
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/r/stable"
         state: directory
-        mode: "0600"
+        mode: "0700"
 
     - name: Creates ~/r/bin
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/r/bin"
         state: directory
-        mode: "0600"
+        mode: "0700"
 
     - name: Fetch from github
       ansible.builtin.git:
@@ -55,7 +55,7 @@
         content: |
           #!/bin/sh
           $HOME/r/stable/pyqtsnake/.venv/bin/python3 $HOME/r/stable/pyqtsnake/snake.pyw
-        mode: "0600"
+        mode: "0700"
 
     - name: Creating ~/r/stable/bin/{timer,stopwatch}
       ansible.builtin.copy:
@@ -63,7 +63,7 @@
         content: |
           #!/bin/sh
           $HOME/r/stable/pyqtstopwatch/.venv/bin/python3 $HOME/r/stable/pyqtstopwatch/{{ item }}.pyw
-        mode: "0600"
+        mode: "0700"
       loop:
         - timer
         - stopwatch
@@ -74,7 +74,7 @@
         content: |
           #!/bin/sh
           $HOME/r/stable/multistopwatch/.venv/bin/python3 $HOME/r/stable/multistopwatch/{{ item }}.pyw
-        mode: "0600"
+        mode: "0700"
       loop:
         - multitimer
         - multistopwatch
