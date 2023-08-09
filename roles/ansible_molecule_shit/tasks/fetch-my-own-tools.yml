@@ -54,7 +54,7 @@
         dest: "{{ ansible_env.HOME }}/r/bin/snake"
         content: |
           #!/bin/sh
-          $HOME/r/stable/pyqtsnake/.venv/bin/python3 $HOME/r/stable/pyqtsnake/snake.pyw
+          $HOME/r/stable/pyqtsnake/.venv/bin/python3 $HOME/r/stable/pyqtsnake/snake.py
         mode: "0700"
 
     - name: Creating ~/r/stable/bin/{timer,stopwatch}
@@ -73,7 +73,7 @@
         dest: "{{ ansible_env.HOME }}/r/bin/{{ item }}"
         content: |
           #!/bin/sh
-          $HOME/r/stable/multistopwatch/.venv/bin/python3 $HOME/r/stable/multistopwatch/{{ item }}.pyw
+          $HOME/r/stable/multistopwatch/.venv/bin/python3 $HOME/r/stable/multistopwatch/{{ item }}.py
         mode: "0700"
       loop:
         - multitimer
