@@ -1,3 +1,5 @@
+#!/usr/bin/python3 
+
 import os
 import pathlib
 from datetime import date
@@ -10,7 +12,7 @@ from_to_array = [
     [".gitconfig", "r/symlinks/.gitconfig"],
     [".gitignore", "r/symlinks/.gitignore"],
     [".git-credentials", "r/symlinks/.git-credentials"],
-    ["_", "r/symlinks/_"],
+    # ["_", "r/symlinks/_"],
 ]
 
 for from_to in from_to_array:

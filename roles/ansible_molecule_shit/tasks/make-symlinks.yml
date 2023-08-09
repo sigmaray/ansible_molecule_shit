@@ -6,3 +6,17 @@
 
 - name: execute python script
   script: make-symlinks.py
+  # to get rid of
+  # "WARNING  An error occurred during the test sequence action: 'idempotence'"
+  changed_when: False 
+
+- name: "Record command output"
+  shell: |
+    echo "ls -lah ~:"
+    ls -lah ~
+  register: content
+  changed_when: False 
+
+- name: "Print result of command"
+  debug:
+    msg: "{{ content.stdout.split('\n') }}"
