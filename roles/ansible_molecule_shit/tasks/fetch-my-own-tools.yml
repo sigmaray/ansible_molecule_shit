@@ -1,51 +1,103 @@
 ---
 
+- name: Set repos
+  set_fact:
+    repos:
+      - pyqtstopwatch
+      - pyqtsnake
+      - multistopwatch
+
 - name: Check if directory exists
   ansible.builtin.stat:
     path: "{{ ansible_env.HOME }}/r/stable/pyqtstopwatch"
   register: dir_data
 
 - name: Fetch and setup tools
-  when: not dir_data.exists
+  when: not dir_data.stat.exists
   block:
-    - name: Creates directory
+    - name: Install sudo and git
+      ansible.builtin.apt:
+        pkg:
+          - sudo
+          - git
+          - python3-pip
+          - python3-setuptools
+          - python3-virtualenv
+  
+    - name: Creates ~/r/stable
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/r/stable"
         state: directory
         mode: "0600"
 
-    - name: Fetch pyqtstopwatch from github
+    - name: Creates ~/r/bin
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/r/bin"
+        state: directory
+        mode: "0600"    
+  
+    - name: Fetch from github
       ansible.builtin.git:
-        repo: https://github.com/sigmaray/pyqtstopwatch.git
-        dest: "{{ ansible_env.HOME }}/r/stable/pyqtstopwatch"
+        repo: https://github.com/sigmaray/{{item}}.git
+        dest: "{{ ansible_env.HOME }}/r/stable/{{item}}"
+      loop: "{{repos}}"
       tags:
         - skip_ansible_lint
 
     - name: Do pip install
       ansible.builtin.pip:
-        requirements: "{{ ansible_env.HOME }}/r/stable/pyqtstopwatch/requirements.txt"
-        # virtualenv: "{{ ansible_env.HOME }}/r/stable/pyqtstopwatch/.venv"
+        requirements: "{{ ansible_env.HOME }}/r/stable/{{item}}/requirements.txt"
+        virtualenv: "{{ ansible_env.HOME }}/r/stable/{{item}}/.venv"
+      loop: "{{repos}}"
+        
+    - name: Creating ~/r/stable/bin/snake
+      copy:
+        dest: "{{ ansible_env.HOME }}/r/bin/snake"
+        content: |
+          #!/bin/sh
+          $HOME/r/stable/pyqtsnake/.venv/bin/python3 $HOME/r/stable/pyqtsnake/snake.pyw
 
-    - name: Fetch pyqtsnake from github
-      ansible.builtin.git:
-        repo: https://github.com/sigmaray/pyqtsnake.git
-        dest: "{{ ansible_env.HOME }}/r/stable/pyqtsnake"
-      tags:
-        - skip_ansible_lint
+    - name: Creating ~/r/stable/bin/{timer,stopwatch}
+      copy:
+        dest: "{{ ansible_env.HOME }}/r/bin/{{item}}"
+        content: |
+          #!/bin/sh
+          $HOME/r/stable/pyqtstopwatch/.venv/bin/python3 $HOME/r/stable/pyqtstopwatch/{{item}}.pyw
+      loop:
+        - timer
+        - stopwatch
 
-    - name: Do pip install
-      ansible.builtin.pip:
-        requirements: "{{ ansible_env.HOME }}/r/stable/pyqtsnake/requirements.txt"
-        # virtualenv: "{{ ansible_env.HOME }}/r/stable/pyqtsnake/.venv"
+    - name: Creating ~/r/stable/bin/{multitimer,multistopwatch}
+      copy:
+        dest: "{{ ansible_env.HOME }}/r/bin/{{item}}"
+        content: |
+          #!/bin/sh
+          $HOME/r/stable/multistopwatch/.venv/bin/python3 $HOME/r/stable/multistopwatch/{{item}}.pyw
+      loop:
+        - multitimer
+        - multistopwatch
+  
+    - name: Check if bin was already added to path
+      lineinfile:
+        state: absent
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        regexp: "$HOME/r/bin"
+      check_mode: true
+      changed_when: false # This just makes things look prettier in the logs
+      register: check
 
-    - name: Fetch multistopwatch from github
-      ansible.builtin.git:
-        repo: https://github.com/sigmaray/multistopwatch.git
-        dest: "{{ ansible_env.HOME }}/r/stable/multistopwatch"
-      tags:
-        - skip_ansible_lint
+    - name: add path if undefined
+      lineinfile:
+        state: present
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        line: "export PATH=\"$HOME/r/bin:$PATH\""
+      when: check.found == 0
 
-    - name: Do pip install
-      ansible.builtin.pip:
-        requirements: "{{ ansible_env.HOME }}/r/stable/multistopwatch/requirements.txt"
-        # virtualenv: "{{ ansible_env.HOME }}/r/stable/multistopwatch/.venv"
+    # - name: "Read a file content"
+    #   shell: |
+    #     cat {{ ansible_env.HOME }}/.bashrc
+    #   register: file_content
+
+    # - name: "Print the file content to a console"
+    #   debug:
+    #     msg: "{{ file_content.stdout }}"
