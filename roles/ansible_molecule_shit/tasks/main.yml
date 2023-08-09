@@ -13,5 +13,5 @@
   ansible.builtin.include_tasks: asdf.yml
 - name: Include fetch-my-own-tools.yml
   ansible.builtin.include_tasks: fetch-my-own-tools.yml
-# - name: Include pgadmin.yml
-#   ansible.builtin.include_tasks: pgadmin.yml
+- name: Include pgadmin.yml
+  ansible.builtin.include_tasks: pgadmin.yml
