@@ -61,11 +61,11 @@
         line: 'export PATH="$HOME/r/bin-large:$PATH"'
       when: check.found == 0
 
-    - name: "Read a file content"
-      shell: |
-        cat {{ ansible_env.HOME }}/.bashrc
-      register: file_content
+    # - name: "Read a file content"
+    #   shell: |
+    #     cat {{ ansible_env.HOME }}/.bashrc
+    #   register: file_content
 
-    - name: "Print the file content to a console"
-      debug:
-        msg: "{{ file_content.stdout }}"
+    # - name: "Print the file content to a console"
+    #   debug:
+    #     msg: "{{ file_content.stdout }}"
