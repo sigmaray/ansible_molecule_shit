@@ -1,6 +1,6 @@
 ---
-- name: Set repos
-  set_fact:
+- name: Set repos to clone
+  ansible.builtin.set_fact:
     repos:
       - pyqtstopwatch
       - pyqtsnake
@@ -37,20 +37,20 @@
 
     - name: Fetch from github
       ansible.builtin.git:
-        repo: https://github.com/sigmaray/{{item}}.git
-        dest: "{{ ansible_env.HOME }}/r/stable/{{item}}"
-      loop: "{{repos}}"
+        repo: https://github.com/sigmaray/{{ item }}.git
+        dest: "{{ ansible_env.HOME }}/r/stable/{{ item }}"
+      loop: "{{ repos }}"
       tags:
         - skip_ansible_lint
 
     - name: Do pip install
       ansible.builtin.pip:
-        requirements: "{{ ansible_env.HOME }}/r/stable/{{item}}/requirements.txt"
-        virtualenv: "{{ ansible_env.HOME }}/r/stable/{{item}}/.venv"
-      loop: "{{repos}}"
+        requirements: "{{ ansible_env.HOME }}/r/stable/{{ item }}/requirements.txt"
+        virtualenv: "{{ ansible_env.HOME }}/r/stable/{{ item }}/.venv"
+      loop: "{{ repos }}"
 
     - name: Creating ~/r/stable/bin/snake
-      copy:
+      ansible.builtin.copy:
         dest: "{{ ansible_env.HOME }}/r/bin/snake"
         content: |
           #!/bin/sh
@@ -58,11 +58,11 @@
         mode: "0600"
 
     - name: Creating ~/r/stable/bin/{timer,stopwatch}
-      copy:
-        dest: "{{ ansible_env.HOME }}/r/bin/{{item}}"
+      ansible.builtin.copy:
+        dest: "{{ ansible_env.HOME }}/r/bin/{{ item }}"
         content: |
           #!/bin/sh
-          $HOME/r/stable/pyqtstopwatch/.venv/bin/python3 $HOME/r/stable/pyqtstopwatch/{{item}}.pyw
+          $HOME/r/stable/pyqtstopwatch/.venv/bin/python3 $HOME/r/stable/pyqtstopwatch/{{ item }}.pyw
         mode: "0600"
       loop:
         - timer
@@ -70,10 +70,10 @@
 
     - name: Creating ~/r/stable/bin/{multitimer,multistopwatch}
       ansible.builtin.copy:
-        dest: "{{ ansible_env.HOME }}/r/bin/{{item}}"
+        dest: "{{ ansible_env.HOME }}/r/bin/{{ item }}"
         content: |
           #!/bin/sh
-          $HOME/r/stable/multistopwatch/.venv/bin/python3 $HOME/r/stable/multistopwatch/{{item}}.pyw
+          $HOME/r/stable/multistopwatch/.venv/bin/python3 $HOME/r/stable/multistopwatch/{{ item }}.pyw
         mode: "0600"
       loop:
         - multitimer
