@@ -60,6 +60,7 @@
 #         state: present
 
 - name: ASDF Erlang deps
+  become: true
   ansible.builtin.apt:
     pkg:
       - build-essential

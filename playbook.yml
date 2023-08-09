@@ -14,7 +14,7 @@
 ---
 - name: Include entire ansible_molecule_shit role
   hosts: localhost
-  gather_facts: false
+  gather_facts: true
   tasks:
     - name: Include role
       ansible.builtin.include_role:
