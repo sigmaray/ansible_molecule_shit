@@ -9,7 +9,6 @@
   ansible.builtin.apt:
     update_cache: true
     pkg:
-      - sudo
       - wget
       - gpg
       - ca-certificates

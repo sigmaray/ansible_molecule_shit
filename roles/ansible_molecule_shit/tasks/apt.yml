@@ -1,5 +1,6 @@
 ---
 - name: Remove transmission packages
+  become: true
   ansible.builtin.apt:
     pkg: "{{ item }}"
     state: absent
@@ -8,6 +9,7 @@
     - transmission-common
     - transmission-gtk
 - name: Install a list of packages
+  become: true
   ansible.builtin.apt:
     update_cache: true
     pkg:

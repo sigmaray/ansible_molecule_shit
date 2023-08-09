@@ -1,5 +1,6 @@
 ---
 - name: ASDF deps
+  become: true
   ansible.builtin.apt:
     update_cache: true
     pkg:
@@ -9,6 +10,7 @@
       - unzip
 
 - name: ASDF Ruby deps
+  become: true
   ansible.builtin.apt:
     pkg:
       - autoconf
@@ -30,7 +32,8 @@
 - name: Install debian specific deps
   when: ansible_distribution == 'Debian'
   block:
-    - ansible.builtin.apt:
+    - become: true
+      ansible.builtin.apt:
         pkg:
           # - software-properties-common
           - libwxgtk3.2-dev

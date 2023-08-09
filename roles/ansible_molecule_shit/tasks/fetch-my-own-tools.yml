@@ -15,10 +15,10 @@
 - name: Fetch and setup tools
   when: not dir_data.stat.exists
   block:
-    - name: Install sudo and git
+    - name: Install deps
+      become: true
       ansible.builtin.apt:
         pkg:
-          - sudo
           - git
           - python3-pip
           - python3-setuptools
