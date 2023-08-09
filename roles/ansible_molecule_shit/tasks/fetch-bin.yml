@@ -17,7 +17,7 @@
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/r/"
         state: directory
-        mode: "0600"
+        mode: "0700"
 
     - name: Fetch from github
       ansible.builtin.git:
