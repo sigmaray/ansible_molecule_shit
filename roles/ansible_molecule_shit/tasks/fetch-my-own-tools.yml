@@ -1,5 +1,4 @@
 ---
-
 - name: Set repos
   set_fact:
     repos:
@@ -23,7 +22,7 @@
           - python3-pip
           - python3-setuptools
           - python3-virtualenv
-  
+
     - name: Creates ~/r/stable
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/r/stable"
@@ -34,8 +33,8 @@
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/r/bin"
         state: directory
-        mode: "0600"    
-  
+        mode: "0600"
+
     - name: Fetch from github
       ansible.builtin.git:
         repo: https://github.com/sigmaray/{{item}}.git
@@ -49,13 +48,14 @@
         requirements: "{{ ansible_env.HOME }}/r/stable/{{item}}/requirements.txt"
         virtualenv: "{{ ansible_env.HOME }}/r/stable/{{item}}/.venv"
       loop: "{{repos}}"
-        
+
     - name: Creating ~/r/stable/bin/snake
       copy:
         dest: "{{ ansible_env.HOME }}/r/bin/snake"
         content: |
           #!/bin/sh
           $HOME/r/stable/pyqtsnake/.venv/bin/python3 $HOME/r/stable/pyqtsnake/snake.pyw
+        mode: "0600"
 
     - name: Creating ~/r/stable/bin/{timer,stopwatch}
       copy:
@@ -63,20 +63,22 @@
         content: |
           #!/bin/sh
           $HOME/r/stable/pyqtstopwatch/.venv/bin/python3 $HOME/r/stable/pyqtstopwatch/{{item}}.pyw
+        mode: "0600"
       loop:
         - timer
         - stopwatch
 
     - name: Creating ~/r/stable/bin/{multitimer,multistopwatch}
-      copy:
+      ansible.builtin.copy:
         dest: "{{ ansible_env.HOME }}/r/bin/{{item}}"
         content: |
           #!/bin/sh
           $HOME/r/stable/multistopwatch/.venv/bin/python3 $HOME/r/stable/multistopwatch/{{item}}.pyw
+        mode: "0600"
       loop:
         - multitimer
         - multistopwatch
-  
+
     - name: Check if bin was already added to path
       ansible.builtin.lineinfile:
         state: absent
@@ -90,7 +92,7 @@
       ansible.builtin.lineinfile:
         state: present
         path: "{{ ansible_env.HOME }}/.bashrc"
-        line: "export PATH=\"$HOME/r/bin:$PATH\""
+        line: 'export PATH="$HOME/r/bin:$PATH"'
       when: check.found == 0
 
     # - name: "Read a file content"
