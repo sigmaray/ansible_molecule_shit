@@ -7,7 +7,6 @@
   tasks:
     - name: Install a list of packages
       ansible.builtin.apt:
-        update_cache: true
         pkg: python3-apt
     - name: Gather package facts
       ansible.builtin.package_facts:

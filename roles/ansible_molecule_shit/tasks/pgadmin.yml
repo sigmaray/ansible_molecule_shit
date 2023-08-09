@@ -9,7 +9,6 @@
 - name: Install curl
   become: true
   ansible.builtin.apt:
-    update_cache: true
     pkg:
       - curl
 - name: Install key
