@@ -1,0 +1,71 @@
+---
+- name: Check if directory exists
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/r/bin"
+  register: dir_data
+
+- name: Fetch and setup tools
+  when: not dir_data.stat.exists
+  block:
+    - name: Install deps
+      become: true
+      ansible.builtin.apt:
+        pkg:
+          - git
+
+    - name: Creates ~/r/
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/r/"
+        state: directory
+        mode: "0600"
+
+    - name: Fetch from github
+      ansible.builtin.git:
+        repo: https://github.com/sigmaray/{{ item }}.git
+        dest: "{{ ansible_env.HOME }}/r/{{ item }}"
+      loop:
+        - bin
+        - bin-large
+      tags:
+        - skip_ansible_lint
+        
+    - name: Check if ~/r/bin was already added to path
+      ansible.builtin.lineinfile:
+        state: absent
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        regexp: "$HOME/r/bin"
+      check_mode: true
+      changed_when: false # This just makes things look prettier in the logs
+      register: check
+    
+    - name: Add ~/r/bin to path
+      ansible.builtin.lineinfile:
+        state: present
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        line: 'export PATH="$HOME/r/bin:$PATH"'
+      when: check.found == 0
+
+    - name: Check if ~/r/bin-large was already added to path
+      ansible.builtin.lineinfile:
+        state: absent
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        regexp: "$HOME/r/bin-large"
+      check_mode: true
+      changed_when: false # This just makes things look prettier in the logs
+      register: check
+      
+    - name: Add ~/r/bin-large to path
+      ansible.builtin.lineinfile:
+        state: present
+        path: "{{ ansible_env.HOME }}/.bashrc"
+        line: 'export PATH="$HOME/r/bin-large:$PATH"'
+      when: check.found == 0
+
+    - name: "Read a file content"
+      shell: |
+        cat {{ ansible_env.HOME }}/.bashrc
+      register: file_content
+
+    - name: "Print the file content to a console"
+      debug:
+        msg: "{{ file_content.stdout }}"
