@@ -1,10 +1,10 @@
 ---
-- name: Install etckeeper.
+- name: Install etckeeper
+  become: true
   ansible.builtin.apt:
     name: etckeeper
     state: present
     install_recommends: false
-    update_cache: true
 
 - name: Initialize etckeeper repository.
   ansible.builtin.shell: etckeeper init
