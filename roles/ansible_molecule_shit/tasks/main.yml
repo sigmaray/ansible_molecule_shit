@@ -19,3 +19,5 @@
   ansible.builtin.include_tasks: fetch-bin.yml
 - name: Include configure-git.yml
   ansible.builtin.include_tasks: configure-git.yml
+- name: Make symlinks
+  ansible.builtin.include_tasks: make-symlinks.yml
