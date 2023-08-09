@@ -6,9 +6,8 @@
 - name: Install deps
   become: true
   ansible.builtin.apt:
-    update_cache: true
+    become: true
     pkg:
-      - sudo
       - wget
       - gpg
       - ca-certificates
