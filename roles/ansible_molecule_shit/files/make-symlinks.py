@@ -22,6 +22,11 @@ for from_to in from_to_array:
 
     # if from path is not a symlink
     if not (os.path.islink(hfrom)):
+        # create parent dir if it does not exist
+        path = pathlib.Path(hfrom)
+        parent = path.parent
+        parent.mkdir(parents=True, exist_ok=True)
+
         # create destination dir if it does not exist
         pathlib.Path(hto).mkdir(parents=True, exist_ok=True)
 
