@@ -11,3 +11,5 @@
   args:
     chdir: /etc/
     creates: /etc/.etckeeper
+  tags:
+    - skip_ansible_lint
