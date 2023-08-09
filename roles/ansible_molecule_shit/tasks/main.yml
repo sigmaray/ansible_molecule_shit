@@ -17,3 +17,5 @@
   ansible.builtin.include_tasks: pgadmin.yml
 - name: Include fetch-bin.yml
   ansible.builtin.include_tasks: fetch-bin.yml
+- name: Include configure-git.yml
+  ansible.builtin.include_tasks: configure-git.yml
