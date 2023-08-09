@@ -78,7 +78,7 @@
         - multistopwatch
   
     - name: Check if bin was already added to path
-      lineinfile:
+      ansible.builtin.lineinfile:
         state: absent
         path: "{{ ansible_env.HOME }}/.bashrc"
         regexp: "$HOME/r/bin"
@@ -86,8 +86,8 @@
       changed_when: false # This just makes things look prettier in the logs
       register: check
 
-    - name: add path if undefined
-      lineinfile:
+    - name: Add path if undefined
+      ansible.builtin.lineinfile:
         state: present
         path: "{{ ansible_env.HOME }}/.bashrc"
         line: "export PATH=\"$HOME/r/bin:$PATH\""

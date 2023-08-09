@@ -6,7 +6,6 @@
 - name: Install deps
   become: true
   ansible.builtin.apt:
-    become: true
     pkg:
       - wget
       - gpg
