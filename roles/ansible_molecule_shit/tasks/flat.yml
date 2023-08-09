@@ -1,4 +1,12 @@
 ---
+
+- name: Sudo and flat present
+  ansible.builtin.apt:
+    update_cache: true
+    pkg:
+      - sudo
+      - flat
+
 - name: Flatpak present
   become: true
   ansible.builtin.apt:

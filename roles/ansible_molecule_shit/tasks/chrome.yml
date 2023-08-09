@@ -3,6 +3,18 @@
 #   ansible.builtin.apt:
 #     state: latest
 #     update_cache: true
+
+- name: Install debian deps
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    pkg:
+      - sudo
+      - wget
+      - gpg
+      - ca-certificates
+      - apt-transport-https
+
 - name: Add Apt signing key
   ansible.builtin.apt_key:
     url: "https://dl.google.com/linux/linux_signing_key.pub"

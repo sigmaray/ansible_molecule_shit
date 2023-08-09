@@ -1,17 +1,17 @@
 ---
-- name: Include etckeeper.yml
+- name: Include etckeeper.yml # works in ubuntu and debian
   ansible.builtin.include_tasks: etckeeper.yml
-- name: Include apt.yml
+- name: Include apt.yml # works in ubuntu and debian except virtualbox (doesn't work in debian)
   ansible.builtin.include_tasks: apt.yml
-- name: Include flat.yml
+- name: Include flat.yml # works in ubuntu and debian
   ansible.builtin.include_tasks: flat.yml
 - name: Include vscode.yml
-  ansible.builtin.include_tasks: vscode.yml
+  ansible.builtin.include_tasks: vscode.yml # works in ubuntu and debian
 - name: Include chrome.yml
-  ansible.builtin.include_tasks: chrome.yml
-- name: Include asdf.yml
+  ansible.builtin.include_tasks: chrome.yml # works in ubuntu and debian
+- name: Include asdf.yml # I fixed debian
   ansible.builtin.include_tasks: asdf.yml
-- name: Include fetch-my-own-tools.yml
-  ansible.builtin.include_tasks: fetch-my-own-tools.yml
-- name: Include pgadmin.yml
-  ansible.builtin.include_tasks: pgadmin.yml
+# - name: Include fetch-my-own-tools.yml
+#   ansible.builtin.include_tasks: fetch-my-own-tools.yml
+# - name: Include pgadmin.yml
+#   ansible.builtin.include_tasks: pgadmin.yml

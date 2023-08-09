@@ -3,26 +3,12 @@
 
 # https://github.com/gantsign/ansible-role-visual-studio-code/blob/master/tasks/install-apt.yml
 
-# - name: Install dependencies (apt)
-#   become: true
-#   ansible.builtin.apt:
-#     name:
-#       - ca-certificates
-#       - apt-transport-https
-#       - gconf2
-#       - libasound2
-#       - libgtk2.0-0
-#       - libxss1
-#       - libxcb-dri3-0
-#       - libdrm2
-#       - libgbm1
-#       - libxshmfence1
-#     state: present
-
 - name: Install deps
+  become: true
   ansible.builtin.apt:
     update_cache: true
     pkg:
+      - sudo
       - wget
       - gpg
       - ca-certificates

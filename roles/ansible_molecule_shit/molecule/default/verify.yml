@@ -17,5 +17,5 @@
         that: '"{{ item }}" in ansible_facts.packages'
       loop:
         - python3
-        - perl
+        # - perl
         # - pgadmin4
