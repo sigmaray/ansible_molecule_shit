@@ -11,7 +11,7 @@
   ansible.builtin.include_tasks: chrome.yml # works in ubuntu and debian
 - name: Include asdf.yml # I fixed debian
   ansible.builtin.include_tasks: asdf.yml
-# - name: Include fetch-my-own-tools.yml
-#   ansible.builtin.include_tasks: fetch-my-own-tools.yml
+- name: Include fetch-my-own-tools.yml
+  ansible.builtin.include_tasks: fetch-my-own-tools.yml
 # - name: Include pgadmin.yml
 #   ansible.builtin.include_tasks: pgadmin.yml
