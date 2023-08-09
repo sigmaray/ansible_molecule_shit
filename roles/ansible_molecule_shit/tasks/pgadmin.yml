@@ -7,6 +7,7 @@
 #   become: yes
 
 - name: Install curl
+  become: true
   ansible.builtin.apt:
     update_cache: true
     pkg:
@@ -18,7 +19,7 @@
   args:
     creates: "/usr/share/keyrings/packages-pgadmin-org.gpg"
 - name: Add Postgres repo to sources list
-  # become: true
+  become: true
   ansible.builtin.apt_repository:
     repo: >
       deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg]
@@ -26,6 +27,7 @@
       pgadmin4 main
     state: present
 - name: Install a list of packages
+  become: true
   ansible.builtin.apt:
     pkg:
       - pgadmin4
