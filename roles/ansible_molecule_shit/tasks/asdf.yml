@@ -31,7 +31,8 @@
 - name: Install debian specific deps
   when: ansible_distribution == 'Debian'
   block:
-    - become: true
+    - name: Install libwx... for debian
+      become: true
       ansible.builtin.apt:
         pkg:
           # - software-properties-common
@@ -46,7 +47,8 @@
 - name: Install debian specific deps
   when: ansible_distribution == 'Ubuntu'
   block:
-    - ansible.builtin.apt:
+    - name: Install libwx... for ubuntu
+      ansible.builtin.apt:
         pkg:
           # - software-properties-common
           - libwxgtk3.0-gtk3-dev
