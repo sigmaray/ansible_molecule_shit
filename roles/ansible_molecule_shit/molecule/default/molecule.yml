@@ -6,10 +6,10 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: instance
+  - name: debian bookmworm
     image: "ghcr.io/hspaans/molecule-container-debian:bookworm"
     pre_build_image: true
-  - name: instance
+  - name: ubuntu 22.04
     image: nmusatti/ubuntu2204-pys
     pre_build_image: true
 provisioner:
