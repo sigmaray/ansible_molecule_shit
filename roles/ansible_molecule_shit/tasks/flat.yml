@@ -5,7 +5,7 @@
     update_cache: true
     pkg:
       - sudo
-      - flat
+      - flatpak
 
 - name: Flatpak present
   become: true
