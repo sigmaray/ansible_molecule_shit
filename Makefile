@@ -9,3 +9,6 @@ run-local:
 
 molecule-test:
 	molecule test
+
+docker-build:
+	docker build -t sigma-arch .
