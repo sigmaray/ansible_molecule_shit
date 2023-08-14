@@ -1,14 +1,117 @@
 ---
-- name: ASDF deps
+# ------------------------------------------
+- name: ASDF deps for deb
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
   become: true
   ansible.builtin.apt:
     pkg:
+      - htop
+      - iotop
+      # ------------------
       - git
       - curl
       - wget
       - unzip
-
-- name: ASDF Ruby deps
+- name: ASDF deps for Archlinux
+  when: ansible_distribution == 'Archlinux'
+  become: true
+  community.general.pacman:
+    name:
+      - git
+      - curl
+      - wget
+      - unzip
+# sudo pacman --sync --refresh; sudo pacman --noconfirm --sync git curl wget unzip
+# ------------------------------------------
+- name: Install ASDF
+  become: false
+  ansible.builtin.shell: >
+    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.10.2 && echo ". $HOME/.asdf/asdf.sh" >> ~/.bashrc
+  args:
+    executable: /bin/bash
+    chdir: "$HOME"
+    creates: "$HOME/.asdf/asdf.sh"
+  tags:
+    - skip_ansible_lint
+# ------------------------------------------
+- name: ASDF Erlang deps for deb
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  become: true
+  ansible.builtin.apt:
+    pkg:
+      - build-essential
+      - autoconf
+      - m4
+      - libncurses5-dev
+      - libgl1-mesa-dev
+      - libglu1-mesa-dev
+      - libpng-dev
+      - libssh-dev
+      - unixodbc-dev
+      - xsltproc
+      - fop
+      - libxml2-utils
+      - libncurses-dev
+      - default-jre
+- name: Install Debian specific Erlang deps
+  when: ansible_distribution == 'Debian'
+  become: true
+  ansible.builtin.apt:
+    pkg:
+      - libwxgtk3.2-dev
+      - libwxgtk-webview3.2-dev
+- name: Install Ubuntu specific Erlang deps
+  when: ansible_distribution == 'Ubuntu'
+  ansible.builtin.apt:
+    pkg:
+      - libwxgtk3.0-gtk3-dev
+      - libwxgtk-webview3.0-gtk3-dev
+- name: ASDF Erlang deps for Archlinux
+  when: ansible_distribution == 'Archlinux'
+  become: true
+  community.general.pacman:
+    name:
+      - glibc
+      - lib32-glibc
+      - base-devel
+      - ncurses
+      - glu
+      - mesa
+      - wxwidgets-gtk3
+      - libpng
+      - libssh
+      - unixodbc
+      - libxslt
+      - fop
+# sudo pacman --noconfirm --sync base-devel ncurses glu mesa wxwidgets-gtk3 libpng libssh unixodbc libxslt fop
+- name: Install erlang
+  become: false
+  ansible.builtin.shell: >
+    /bin/bash -c ". $HOME/.asdf/asdf.sh && asdf plugin add erlang && asdf install erlang latest"
+  args:
+    executable: /bin/bash
+    chdir: "{{ ansible_env.HOME }}"
+    creates: "{{ ansible_env.HOME }}/.asdf/installs/erlang"
+- name: Install elixir
+  become: false
+  ansible.builtin.shell: >
+    /bin/bash -c ". $HOME/.asdf/asdf.sh && asdf plugin add elixir && asdf install elixir latest"
+  args:
+    executable: /bin/bash
+    chdir: "{{ ansible_env.HOME }}"
+    creates: "{{ ansible_env.HOME }}/.asdf/installs/elixir/"
+# ------------------------------------------    
+- name: Install Node.js
+  become: false
+  ansible.builtin.shell: >
+    /bin/bash -c ". $HOME/.asdf/asdf.sh && asdf plugin add nodejs && asdf install nodejs latest"
+  args:
+    executable: /bin/bash
+    chdir: "{{ ansible_env.HOME }}"
+    creates: "{{ ansible_env.HOME }}/.asdf/installs/nodejs/"
+# ------------------------------------------    
+- name: ASDF Ruby deps for deb
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
   become: true
   ansible.builtin.apt:
     pkg:
@@ -27,96 +130,15 @@
       - libgdbm-dev 
       - libdb-dev
       - uuid-dev
-
-- name: Install debian specific deps
-  when: ansible_distribution == 'Debian'
-  block:
-    - name: Install libwx... for debian
-      become: true
-      ansible.builtin.apt:
-        pkg:
-          # - software-properties-common
-          - libwxgtk3.2-dev
-          # - libwxgtk-webview3.0-gtk3-dev
-          - libwxgtk-webview3.2-dev
-#     - apt_repository:
-#         validate_certs: no
-#         repo: 'ppa:openjdk-r/ppa'
-#         state: present
-
-- name: Install debian specific deps
-  when: ansible_distribution == 'Ubuntu'
-  block:
-    - name: Install libwx... for ubuntu
-      ansible.builtin.apt:
-        pkg:
-          # - software-properties-common
-          - libwxgtk3.0-gtk3-dev
-          # - libwxgtk-webview3.0-gtk3-dev
-          - libwxgtk-webview3.0-gtk3-dev
-#     - apt_repository:
-#         validate_certs: no
-#         repo: 'ppa:openjdk-r/ppa'
-#         state: present
-
-- name: ASDF Erlang deps
+- name: ASDF Ruby deps for Archlinux
+  when: ansible_distribution == 'Archlinux'
   become: true
-  ansible.builtin.apt:
-    pkg:
-      - build-essential
-      - autoconf
-      - m4
-      - libncurses5-dev
-      # - libwxgtk3.0-gtk3-dev
-      # - libwxgtk3.2-dev
-      # - libwxgtk-webview3.0-gtk3-dev
-      # - libwxgtk-webview3.2-dev
-      - libgl1-mesa-dev
-      - libglu1-mesa-dev
-      - libpng-dev
-      - libssh-dev
-      - unixodbc-dev
-      - xsltproc
-      - fop
-      - libxml2-utils
-      - libncurses-dev
-      # - openjdk-11-jdk
-      - default-jre
-
-- name: Install ASDF
-  become: false
-  ansible.builtin.shell: >
-    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.10.2 && echo ". $HOME/.asdf/asdf.sh" >> ~/.bashrc
-  args:
-    executable: /bin/bash
-    chdir: "$HOME"
-    creates: "$HOME/.asdf/asdf.sh"
-  tags:
-    - skip_ansible_lint
-- name: Install erlang
-  become: false
-  ansible.builtin.shell: >
-    /bin/bash -c ". $HOME/.asdf/asdf.sh && asdf plugin add erlang && asdf install erlang latest"
-  args:
-    executable: /bin/bash
-    chdir: "{{ ansible_env.HOME }}"
-    creates: "{{ ansible_env.HOME }}/.asdf/installs/erlang"
-- name: Install elixir
-  become: false
-  ansible.builtin.shell: >
-    /bin/bash -c ". $HOME/.asdf/asdf.sh && asdf plugin add elixir && asdf install elixir latest"
-  args:
-    executable: /bin/bash
-    chdir: "{{ ansible_env.HOME }}"
-    creates: "{{ ansible_env.HOME }}/.asdf/installs/elixir/"
-- name: Install Node.js
-  become: false
-  ansible.builtin.shell: >
-    /bin/bash -c ". $HOME/.asdf/asdf.sh && asdf plugin add nodejs && asdf install nodejs latest"
-  args:
-    executable: /bin/bash
-    chdir: "{{ ansible_env.HOME }}"
-    creates: "{{ ansible_env.HOME }}/.asdf/installs/nodejs/"
+  community.general.pacman:
+    name:
+      - base-devel
+      - glibc
+      - lib32-glibc
+# sudo pacman --noconfirm --sync which base-devel glibc lib32-glibc
 - name: Install Ruby
   become: false
   ansible.builtin.shell: >

@@ -1,16 +1,19 @@
 ---
 
-- name: Install flatpak
-  become: true
-  ansible.builtin.apt:
-    pkg:
-      - flatpak
-
-- name: Flatpak present
+- name: Install flatpak for Ubuntu/Debian
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
   become: true
   ansible.builtin.apt:
     name: flatpak
     state: present
+
+- name: Install flatpak for Archlinux
+  when: ansible_distribution == 'Archlinux'
+  become: true
+  community.general.pacman:
+    name: flatpak
+    state: present
+
 - name: Flathub flatpak repo
   become: true
   community.general.flatpak_remote:

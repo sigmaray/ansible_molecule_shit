@@ -1,8 +1,16 @@
 
-- name: Install git
+- name: Install git for Ubuntu/Debian
   become: true
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
   ansible.builtin.apt:
     pkg: git
+
+- name: Install git for Archlinux
+  when: ansible_distribution == 'Archlinux'
+  become: true
+  community.general.pacman:
+    name: git
+    state: present
 
 - name: Configure git
   become: false

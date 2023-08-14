@@ -3,10 +3,26 @@
   hosts: all
   pre_tasks:
     - name: Install sudo for debian
+      when: ansible_os_family == 'Debian'
       ansible.builtin.apt:
         name: sudo
         state: present
-      when: ansible_os_family == 'Debian'
+    - name: Update cache
+      when: ansible_os_family == 'Archlinux'
+      community.general.pacman:
+        update_cache: true      
+    - name: Install reflector and setup mirrors
+      when: ansible_os_family == 'Archlinux'
+      block:
+        - name: Install reflector
+          become: true
+          community.general.pacman:
+            name: reflector
+            state: present
+        - name: Setup mirrors
+          become: true
+          ansible.builtin.shell: |
+            reflector --country 'Russia' --latest 5 --fastest 5 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
   tasks:
     - name: "Include sigmaray.ansible_molecule_shit"
       ansible.builtin.include_role:
