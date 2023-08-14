@@ -1,12 +1,20 @@
 ---
-- name: Install etckeeper
+- name: Install etckeeper for Ubuntu/Debian
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
   become: true
   ansible.builtin.apt:
     name: etckeeper
     state: present
-    install_recommends: false
+
+- name: Install etckeeper for Archlinux
+  when: ansible_distribution == 'Archlinux'
+  become: true
+  community.general.pacman:
+    name: etckeeper
+    state: present
 
 - name: Initialize etckeeper repository.
+  become: true
   ansible.builtin.shell: etckeeper init
   args:
     chdir: /etc/

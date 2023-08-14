@@ -1,0 +1,45 @@
+$default_network_interface = `ip route | awk '/^default/ {printf "%s", $5; exit 0}'`
+
+Vagrant.configure("2") do |config|
+  config.vm.define "instance" do |instance|
+    instance.vm.hostname = "instance"
+    instance.vm.box = "archlinux/archlinux"
+    # instance.vm.network "public_network", ip: "192.168.1.161" #, :bridge => 'wlx08ea35e04408'
+    # instance.vm.network "public_network", ip: "192.168.1.141", bridge: "#$default_network_interface"
+
+    # config.vm.provision :shell,
+    #                     :inline => "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config; sudo systemctl restart sshd;",
+    #                     run: "always"
+
+    config.vm.network "forwarded_port", id: "ssh", host: 3022, guest: 22
+
+    instance.vm.provider "virtualbox" do |v|
+      v.memory = 4096
+      v.cpus = 8
+    end
+
+    # if false
+    instance.vm.provision "shell", inline: <<-SCRIPT    
+      # sudo pacman -Syy
+      sudo pacman --sync --refresh
+
+      # sudo pacman -S --noconfirm reflector
+      # sudo pacman --sync --noconfirm reflector
+
+      # sudo reflector --country 'Russia' --latest 5 --fastest 5 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+
+      # sudo pacman -S --noconfirm python-pip glibc lib32-glibc htop iotop git docker docker-compose podman
+      sudo pacman --sync --noconfirm python-pip glibc lib32-glibc htop iotop git
+
+      # cd /opt
+      # sudo git clone https://aur.archlinux.org/yay.git
+      # sudo chown -R vagrant:vagrant /opt/yay
+      # cd /opt/yay
+      # sudo -H -u vagrant makepkg -si --noconfirm
+      #############
+      # sudo  /usr/bin/pacman --noconfirm --noprogressbar --needed --sync htop iotop gcc make perl git mc vlc telegram-desktop obs-studio flameshot deluge ncdu remmina docker docker-compose podman virtualbox virtualbox-guest-iso
+      # sudo  /usr/bin/pacman --noconfirm --noprogressbar --needed --sync docker docker-compose podman virtualbox virtualbox-guest-iso base-devel
+    SCRIPT
+    # end
+  end
+end

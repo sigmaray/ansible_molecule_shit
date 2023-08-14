@@ -14,14 +14,26 @@
 - name: Fetch and setup tools
   when: not dir_data.stat.exists
   block:
-    - name: Install deps
+    - name: Install deps for Ubuntu/Debian
       become: true
+      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
       ansible.builtin.apt:
         pkg:
           - git
           - python3-pip
           - python3-setuptools
           - python3-virtualenv
+
+    - name: Install deps for Archlinux
+      when: ansible_distribution == 'Archlinux'
+      become: true
+      community.general.pacman:
+        name:
+          - git
+          - python-pip
+          - python-setuptools 
+          - python-virtualenv
+        state: present
 
     - name: Creates ~/r/stable
       ansible.builtin.file:

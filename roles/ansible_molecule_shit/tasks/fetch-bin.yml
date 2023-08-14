@@ -7,11 +7,18 @@
 - name: Fetch and setup tools
   when: not dir_data.stat.exists
   block:
-    - name: Install deps
+    - name: Install git for Ubuntu/Debian
       become: true
+      when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
       ansible.builtin.apt:
-        pkg:
-          - git
+        pkg: git
+
+    - name: Install git for Archlinux
+      when: ansible_distribution == 'Archlinux'
+      become: true
+      community.general.pacman:
+        name: git
+        state: present
 
     - name: Creates ~/r/
       ansible.builtin.file:
