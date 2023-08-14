@@ -1,23 +1,46 @@
 ---
-- name: Include etckeeper.yml # works in ubuntu and debian
+
+# - name: Example from an Ansible Playbook
+#   ansible.builtin.ping:
+
+# - name: Facts
+#   setup:
+# - name: Dump
+#   delegate_to: localhost
+#   run_once: true
+#   copy:
+#     content: "{{ hostvars[inventory_hostname] | to_nice_json }}"
+#     dest: /tmp/setup-dump.json
+
+- name: Include etckeeper.yml
   ansible.builtin.include_tasks: etckeeper.yml
-- name: Include apt.yml # works in ubuntu and debian except virtualbox (doesn't work in debian)
-  ansible.builtin.include_tasks: apt.yml
-- name: Include flat.yml # works in ubuntu and debian
+- name: Deb specific
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  block:    
+    - name: Include apt.yml # works in ubuntu and debian except virtualbox (doesn't work in debian)
+      ansible.builtin.include_tasks: apt.yml    
+    - name: Include vscode.yml
+      ansible.builtin.include_tasks: vscode.yml
+    - name: Include chrome.yml
+      ansible.builtin.include_tasks: chrome.yml
+    - name: Include asdf.yml
+      ansible.builtin.include_tasks: asdf.yml
+    - name: Include pgadmin.yml
+      ansible.builtin.include_tasks: pgadmin.yml
+- name: Arch specific
+  when: ansible_distribution == 'Archlinux'
+  block:    
+    - name: Include arch.yml
+      ansible.builtin.include_tasks: arch.yml    
+- name: Include flat.yml
   ansible.builtin.include_tasks: flat.yml
-- name: Include vscode.yml
-  ansible.builtin.include_tasks: vscode.yml # works in ubuntu and debian
-- name: Include chrome.yml
-  ansible.builtin.include_tasks: chrome.yml # works in ubuntu and debian
-- name: Include asdf.yml # I fixed debian
-  ansible.builtin.include_tasks: asdf.yml
 - name: Include fetch-my-own-tools.yml
   ansible.builtin.include_tasks: fetch-my-own-tools.yml
-- name: Include pgadmin.yml
-  ansible.builtin.include_tasks: pgadmin.yml
 - name: Include fetch-bin.yml
   ansible.builtin.include_tasks: fetch-bin.yml
 - name: Include configure-git.yml
   ansible.builtin.include_tasks: configure-git.yml
+- name: Include asdf.yml
+  ansible.builtin.include_tasks: asdf.yml
 # - name: Make symlinks
 #   ansible.builtin.include_tasks: make-symlinks.yml

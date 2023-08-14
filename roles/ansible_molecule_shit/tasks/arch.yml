@@ -1,0 +1,90 @@
+- name: Check if /usr/bin/reflector exists
+  ansible.builtin.stat:
+    path: /usr/bin/reflector
+  register: reflector_data
+
+- name: Install reflector and setup mirrors
+  when: not reflector_data.stat.exists
+  block:
+    - name: Install reflector
+      become: true
+      community.general.pacman:
+        name: reflector
+        state: present
+    - name: Setup mirrors
+      become: true
+      ansible.builtin.shell: |
+        reflector --country 'Russia' --latest 5 --fastest 5 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+
+- name: Check if /usr/bin/yay exists
+  ansible.builtin.stat:
+    path: /usr/bin/yay
+  register: yay_data
+
+- name: Fetch and setup yay
+  when: not yay_data.stat.exists
+  block:
+    - name: Install base-devel
+      become: true
+      community.general.pacman:
+        name: base-devel
+        state: present  
+    - name: Fetch from github
+      become: true
+      ansible.builtin.git:
+        repo: https://aur.archlinux.org/yay.git
+        dest: /tmp/yay
+      tags:
+        - skip_ansible_lint
+    - name: "makepkg -si"
+      become: false
+      shell: |
+        sudo chown -R $(id -u):$(id -g) /tmp/yay
+        cd /tmp/yay
+        makepkg -si --noconfirm
+
+- name: Install virtualbox-ext-oracle from AUR
+  community.general.pacman:
+    name: virtualbox-ext-oracle
+    state: present
+    executable: yay
+    extra_args: --builddir /var/cache/yay
+
+- yay:
+    name:
+      - google-chrome
+      - google-chrome-beta
+      - virtualbox-ext-oracle
+    state: present
+
+- name: Install pacman packages
+  become: true
+  community.general.pacman:
+    name:
+      - base-devel
+      - glibc
+      - lib32-glibc
+      - pgadmin4
+      - code
+      - htop
+      - iotop
+      - gcc
+      - make
+      - perl
+      - git
+      # - gitk
+      - curl
+      - mc
+      - vlc
+      - telegram-desktop
+      - obs-studio
+      - flameshot
+      - deluge
+      - ncdu
+      - remmina
+      - docker
+      - docker-compose
+      - podman
+      - virtualbox
+      - virtualbox-guest-iso
+    state: present

@@ -12,6 +12,9 @@ platforms:
   - name: ubuntu-2204
     image: nmusatti/ubuntu2204-pys
     pre_build_image: true
+  - name: archlinux
+    image: carlodepieri/docker-archlinux-ansible:latest
+    pre_build_image: true
 provisioner:
   name: ansible
 verifier:
@@ -20,3 +23,28 @@ verifier:
 #   set -e
 #   yamllint .
 #   ansible-lint .
+
+# TODO: remove this rubbish
+# driver:
+#   name: vagrant
+#   provider:
+#     name: virtualbox
+# platforms:
+#   - name: instance
+#     box: ubuntu/jammy64
+#     # box: ubuntu
+#     memory: 1024
+#     cpus: 2
+#     # interfaces:
+#     #   # `network_name` is the required identifier, other keys map to arguments.
+#     #   - network_name: private_network
+#     #     ip: 192.168.50.20
+#     #     guest: 80
+#     #     host: 8080
+#     # config_options:
+#     #   ssh.keep_alive: yes
+#     #   ssh.remote_user: "'vagrant'"
+# provisioner:
+#   name: ansible
+# # verifier:
+# #   name: ansible
