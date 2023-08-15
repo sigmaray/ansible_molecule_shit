@@ -25,8 +25,8 @@ jobs:
       - name: Install dependencies.
         run: pip3 install yamllint ansible-lint ansible molecule-docker
 
-      # - name: Install Galaxy dependencies.
-      #   run: ansible-galaxy collection install community.docker
+      - name: Install Galaxy dependencies.
+        run: ansible-galaxy collection install community.docker
 
       - name: Run molecule
         run: "cd roles/ansible_molecule_shit && molecule test"
