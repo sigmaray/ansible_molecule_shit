@@ -17,19 +17,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      # - name: Set up Python
+      #   uses: actions/setup-python@v2
+      #   with:
+      #     python-version: '3.9'
+
+      # - name: Install dependencies.
+      #   run: pip3 install yamllint ansible-lint ansible molecule-docker
+
+      # - name: Install Galaxy dependencies.
+      #   run: |
+      #     ansible-galaxy collection install community.docker
+
+      # - name: Run molecule
+      #   run: "cd roles/ansible_molecule_shit && molecule test"
+               
+      - name: Molecule
+        uses: gofrolist/molecule-action@v2
         with:
-          python-version: '3.9'
-
-      - name: Install dependencies.
-        run: pip3 install yamllint ansible-lint ansible molecule-docker
-
-      - name: Install Galaxy dependencies.
-        run: |
-          ansible-galaxy collection install community.docker --force
-          ls ~/.ansible/collections
-
-
-      - name: Run molecule
-        run: "cd roles/ansible_molecule_shit && ansible-galaxy collection install community.docker && molecule test"
+          molecule_command: test
+          molecule_args: -d docker
+          molecule_working_dir: roles/ansible_molecule_shit
+        env:
+          ANSIBLE_FORCE_COLOR: '1'
