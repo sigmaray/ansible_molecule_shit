@@ -21,38 +21,38 @@
     state: present
     flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
     method: system
-- name: Get facts on current container
-  community.docker.current_container_facts:
-- name: Install flat packages if not inside docker container
-  when: not ansible_module_running_in_container
-  block:
-    - name: Install Zoom via flatpak
-      become: true
-      community.general.flatpak:
-        name: us.zoom.Zoom
-        state: present
-        method: system
-    - name: Onstall Slack via flatpak
-      become: true
-      community.general.flatpak:
-        name: com.slack.Slack
-        state: present
-        method: system
-    - name: Install Viber via flatpak
-      become: true
-      community.general.flatpak:
-        name: com.viber.Viber
-        state: present
-        method: system
-    - name: Install Compass via flatpak
-      become: true
-      community.general.flatpak:
-        name: com.mongodb.Compass
-        state: present
-        method: system
-    - name: Install Dropbox via flatpak
-      become: true
-      community.general.flatpak:
-        name: com.dropbox.Client
-        state: present
-        method: system
+# - name: Get facts on current container
+#   community.docker.current_container_facts:
+# - name: Install flat packages if not inside docker container
+#   when: not ansible_module_running_in_container
+#   block:
+#     - name: Install Zoom via flatpak
+#       become: true
+#       community.general.flatpak:
+#         name: us.zoom.Zoom
+#         state: present
+#         method: system
+#     - name: Onstall Slack via flatpak
+#       become: true
+#       community.general.flatpak:
+#         name: com.slack.Slack
+#         state: present
+#         method: system
+#     - name: Install Viber via flatpak
+#       become: true
+#       community.general.flatpak:
+#         name: com.viber.Viber
+#         state: present
+#         method: system
+#     - name: Install Compass via flatpak
+#       become: true
+#       community.general.flatpak:
+#         name: com.mongodb.Compass
+#         state: present
+#         method: system
+#     - name: Install Dropbox via flatpak
+#       become: true
+#       community.general.flatpak:
+#         name: com.dropbox.Client
+#         state: present
+#         method: system
