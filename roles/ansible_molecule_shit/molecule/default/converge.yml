@@ -8,6 +8,7 @@
         name: sudo
         state: present
     - name: Update cache
+      become: true
       when: ansible_os_family == 'Archlinux'
       community.general.pacman:
         update_cache: true      

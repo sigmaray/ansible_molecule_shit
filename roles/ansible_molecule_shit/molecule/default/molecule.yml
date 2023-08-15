@@ -1,6 +1,4 @@
 ---
-# image: quay.io/centos/centos:stream8    
-# image: mplachter/docker-debian7-molecule
 dependency:
   name: galaxy
 driver:
@@ -14,9 +12,14 @@ platforms:
     pre_build_image: true
   - name: archlinux
     image: carlodepieri/docker-archlinux-ansible:latest
+    # image: sigma-arch:latest
     pre_build_image: true
 provisioner:
   name: ansible
+  inventory:
+    host_vars:
+      archlinux:
+        ansible_user: ansible
 verifier:
   name: ansible
 # lint: |
