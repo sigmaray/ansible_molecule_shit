@@ -52,18 +52,18 @@
         # passwd -d builduser # Delete the buildusers password
         # grep builduser /etc/sudoers || printf 'builduser ALL=(ALL) ALL\n' | tee -a /etc/sudoers # Allow the builduser passwordless sudo
         # sudo -u builduser bash -c 'cd /tmp/ && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm'
-# - name: Get facts on current container
-#   community.docker.current_container_facts:
-# - name: Install yay packages
-#   when: not ansible_module_running_in_container # doesn't work in docker, i don't know why
-#   become: false
-#   yay:
-#     name:
-#       - virtualbox-ext-oracle
-#       - google-chrome
-#       - google-chrome-beta
-#       - virtualbox-ext-oracle
-#     state: present
+- name: Get facts on current container
+  community.docker.current_container_facts:
+- name: Install yay packages
+  when: not ansible_module_running_in_container # doesn't work in docker, i don't know why
+  become: false
+  yay:
+    name:
+      - virtualbox-ext-oracle
+      - google-chrome
+      - google-chrome-beta
+      - virtualbox-ext-oracle
+    state: present
 
 # - name: Install package from AUR using a Pacman compatible AUR helper
 #   community.general.pacman:
