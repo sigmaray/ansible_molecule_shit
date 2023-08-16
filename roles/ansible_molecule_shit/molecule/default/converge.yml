@@ -12,18 +12,23 @@
       when: ansible_os_family == 'Archlinux'
       community.general.pacman:
         update_cache: true      
-    - name: Install reflector and setup mirrors
-      when: ansible_os_family == 'Archlinux'
-      block:
-        - name: Install reflector
-          become: true
-          community.general.pacman:
-            name: reflector
-            state: present
-        - name: Setup mirrors
-          become: true
-          ansible.builtin.shell: |
-            reflector --country 'Russia' --latest 5 --fastest 5 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+    # - name: Install reflector and setup mirrors
+    #   when: ansible_os_family == 'Archlinux'
+    #   block:
+    #     - name: Install reflector
+    #       become: true
+    #       community.general.pacman:
+    #         name: reflector
+    #         state: present
+    #     - name: Setup mirrors
+    #       become: true
+    #       ansible.builtin.shell: |
+    #         reflector --country 'Russia' --latest 5 --fastest 5 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+    #     - name: Update cache
+    #       become: true
+    #       when: ansible_os_family == 'Archlinux'
+    #       community.general.pacman:
+    #         update_cache: true
   tasks:
     - name: "Include sigmaray.ansible_molecule_shit"
       ansible.builtin.include_role:

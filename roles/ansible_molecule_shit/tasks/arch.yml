@@ -1,20 +1,20 @@
-- name: Check if /usr/bin/reflector exists
-  ansible.builtin.stat:
-    path: /usr/bin/reflector
-  register: reflector_data
+# - name: Check if /usr/bin/reflector exists
+#   ansible.builtin.stat:
+#     path: /usr/bin/reflector
+#   register: reflector_data
 
-- name: Install reflector and setup mirrors
-  when: not reflector_data.stat.exists
-  block:
-    - name: Install reflector
-      become: true
-      community.general.pacman:
-        name: reflector
-        state: present
-    - name: Setup mirrors
-      become: true
-      ansible.builtin.shell: |
-        reflector --country 'Russia' --latest 5 --fastest 5 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+# - name: Install reflector and setup mirrors
+#   when: not reflector_data.stat.exists
+#   block:
+#     - name: Install reflector
+#       become: true
+#       community.general.pacman:
+#         name: reflector
+#         state: present
+#     - name: Setup mirrors
+#       become: true
+#       ansible.builtin.shell: |
+#         reflector --country 'Russia' --latest 5 --fastest 5 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 
 - name: Check if /usr/bin/yay exists
   ansible.builtin.stat:
