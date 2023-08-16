@@ -24,12 +24,14 @@
 - name: Fetch and setup yay
   when: not yay_data.stat.exists
   block:
-    - name: Install base-devel and git
+    - name: Install deps
       become: true
       community.general.pacman:
         name:
           - base-devel
           - git
+          - glibc
+          - lib32-glibc
         state: present  
     - name: Fetch from github
       become: false
@@ -92,15 +94,10 @@
   become: true
   community.general.pacman:
     name:
-      - base-devel
-      - glibc
-      - lib32-glibc
       - pgadmin4
       - code
       - htop
       - iotop
-      - gcc
-      - make
       - perl
       - git
       # - gitk
