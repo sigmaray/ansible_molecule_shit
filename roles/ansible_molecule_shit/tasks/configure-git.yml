@@ -13,6 +13,7 @@
     state: present
 
 - name: Configure git
+  changed_when: false # disable idempotence checking
   become: false
   ansible.builtin.shell: |
     git config --global user.name "Stanislav Zaleski"

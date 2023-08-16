@@ -1,33 +1,38 @@
 ---
-- name: Remove transmission packages
-  become: true
-  ansible.builtin.apt:
-    pkg: "{{ item }}"
-    state: absent
-  with_items:
-    - transmission
-    - transmission-common
-    - transmission-gtk
-- name: Install a list of packages
-  become: true
-  ansible.builtin.apt:
-    pkg:
-      - gcc
-      - make
-      - perl
-      - git
-      - gitk
-      - curl
-      - mc
-      - vlc
-      - telegram-desktop
-      - obs-studio
-      - flameshot
-      - deluge
-      - ncdu
-      - remmina
-      - docker
-      - docker-compose
-      - podman
-      # - virtualbox # doesn't work in debian
-      # - virtualbox—ext–pack # doesn't work even in ubuntu
+- name: Get facts on current container
+  community.docker.current_container_facts:
+- name: Install packages if not inside docker container (to avoid out of space error in github actions)
+  when: not ansible_module_running_in_container
+  block:
+    - name: Remove transmission packages
+      become: true
+      ansible.builtin.apt:
+        pkg: "{{ item }}"
+        state: absent
+      with_items:
+        - transmission
+        - transmission-common
+        - transmission-gtk
+    - name: Install a list of packages
+      become: true
+      ansible.builtin.apt:
+        pkg:
+          - gcc
+          - make
+          - perl
+          - git
+          - gitk
+          - curl
+          - mc
+          - vlc
+          - telegram-desktop
+          - obs-studio
+          - flameshot
+          - deluge
+          - ncdu
+          - remmina
+          - docker
+          - docker-compose
+          - podman
+          # - virtualbox # doesn't work in debian
+          # - virtualbox—ext–pack # doesn't work even in ubuntu
