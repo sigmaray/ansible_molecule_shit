@@ -42,3 +42,9 @@ platforms:
     box: debian/bookworm64
     memory: 4096
     cpus: 2
+verifier:
+  name: ansible
+lint: |
+  set -e
+  yamllint .
+  ansible-lint .
