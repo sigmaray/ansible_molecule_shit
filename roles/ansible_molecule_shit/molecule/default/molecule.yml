@@ -22,10 +22,10 @@ provisioner:
         ansible_user: ansible
 verifier:
   name: ansible
-# lint: |
-#   set -e
-#   yamllint .
-#   ansible-lint .
+lint: |
+  set -e
+  yamllint .
+  ansible-lint .
 
 # TODO: remove this rubbish
 # driver:
