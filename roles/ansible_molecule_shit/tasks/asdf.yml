@@ -138,6 +138,7 @@
       - base-devel
       - glibc
       - lib32-glibc
+      - libyaml
 # sudo pacman --noconfirm --sync which base-devel glibc lib32-glibc
 - name: Install Ruby
   become: false
