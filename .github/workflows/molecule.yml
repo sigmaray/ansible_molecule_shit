@@ -76,12 +76,12 @@ jobs:
         run: |
           sudo apt-get install -y vagrant ruby-fog-libvirt
           sudo vagrant plugin install vagrant-libvirt
-      - name: Launch vagrant box
-        run: sudo vagrant up --provider=libvirt
+      # - name: Launch vagrant box
+      #   run: sudo vagrant up --provider=libvirt
       - name: run ansible
         run: |
           # VAGRANT_VAGRANTFILE=Vagrantfile-debian vagrant destroy --force
-          VAGRANT_VAGRANTFILE=Vagrantfile-debian vagrant up
+          VAGRANT_VAGRANTFILE=Vagrantfile-debian sudo vagrant up
           ansible-playbook playbook.yml --inventory=./inventory-vagrant.ini
           # VAGRANT_VAGRANTFILE=Vagrantfile-debian vagrant destroy --force
       - name: Destroy vagrant box
