@@ -78,6 +78,10 @@ jobs:
           sudo vagrant plugin install vagrant-libvirt
       # - name: Launch vagrant box
       #   run: sudo vagrant up --provider=libvirt
+      - name: ls
+        run: |
+          pwd
+          ls -lah
       - name: run ansible
         run: |
           # VAGRANT_VAGRANTFILE=Vagrantfile-libvirt-ubuntu vagrant destroy --force
