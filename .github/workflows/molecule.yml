@@ -24,7 +24,7 @@ jobs:
       #     python-version: '3.9'
 
       - name: Install dependencies.
-        run: pip3 install yamllint ansible-lint ansible molecule-docker molecule-plugins
+        run: pip3 install yamllint ansible-lint ansible molecule-docker molecule-plugins python-vagrant
 
       - name: Install Galaxy dependencies.
         run: |
