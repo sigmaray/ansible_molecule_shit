@@ -11,32 +11,78 @@ name: Molecule
 on: [push]
 
 jobs:
-  molecule:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+  # molecule:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
 
-      # - name: Set up Python
-      #   uses: actions/setup-python@v2
-      #   with:
-      #     python-version: '3.9'
+  #     # - name: Set up Python
+  #     #   uses: actions/setup-python@v2
+  #     #   with:
+  #     #     python-version: '3.9'
 
-      # - name: Install dependencies.
-      #   run: pip3 install yamllint ansible-lint ansible molecule-docker
+  #     # - name: Install dependencies.
+  #     #   run: pip3 install yamllint ansible-lint ansible molecule-docker
 
-      # - name: Install Galaxy dependencies.
-      #   run: |
-      #     ansible-galaxy collection install community.docker
+  #     # - name: Install Galaxy dependencies.
+  #     #   run: |
+  #     #     ansible-galaxy collection install community.docker
 
-      # - name: Run molecule
-      #   run: "cd roles/ansible_molecule_shit && molecule test"
+  #     # - name: Run molecule
+  #     #   run: "cd roles/ansible_molecule_shit && molecule test"
                
-      - name: Molecule
-        uses: gofrolist/molecule-action@v2
-        with:
-          molecule_command: test
-          molecule_args: -d docker
-          molecule_working_dir: roles/ansible_molecule_shit
-        env:
-          ANSIBLE_FORCE_COLOR: '1'
+  #     - name: Molecule
+  #       uses: gofrolist/molecule-action@v2
+  #       with:
+  #         molecule_command: test
+  #         molecule_args: -d docker
+  #         molecule_working_dir: roles/ansible_molecule_shit
+  #       env:
+  #         ANSIBLE_FORCE_COLOR: '1'
+
+  # -------------------------------------------------------------------------
+  libvirt:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up libvirt
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            bridge-utils \
+            dnsmasq-base \
+            ebtables \
+            libarchive-tools \
+            libguestfs-tools \
+            libvirt-clients \
+            libvirt-daemon \
+            libvirt-daemon-system \
+            qemu-kvm \
+            qemu-utils \
+          ;
+          sudo apt-get install -y \
+            libvirt-dev \
+            libz-dev \
+          ;
+
+          # start daemon
+          sudo systemctl start libvirtd
+
+          # add user to group
+          sudo usermod -a -G libvirt $USER
+      - name: Install Vagrant
+        run: |
+          sudo apt-get install -y vagrant ruby-fog-libvirt
+          sudo vagrant plugin install vagrant-libvirt
+      - name: Launch vagrant box
+        run: sudo vagrant up --provider=libvirt
+      - name: run ansible
+        run: |
+          # VAGRANT_VAGRANTFILE=Vagrantfile-debian vagrant destroy --force
+          VAGRANT_VAGRANTFILE=Vagrantfile-debian vagrant up
+          ansible-playbook playbook.yml --inventory=./inventory-vagrant.ini
+          # VAGRANT_VAGRANTFILE=Vagrantfile-debian vagrant destroy --force
+      - name: Destroy vagrant box
+        run: sudo vagrant destroy --force
