@@ -40,9 +40,10 @@
         dest: /tmp/yay
       tags:
         - skip_ansible_lint
-    - name: "makepkg -si"
+    - name: Run "makepkg -si"
       become: false
-      shell: |
+      ansible.builtin.shell: |
+        set -o pipefail
         # sudo chown -R nobody:nobody /tmp/yay
         cd /tmp/yay
         # su -c "makepkg -si --noconfirm" nobody -s /bin/bash
@@ -54,6 +55,8 @@
         # passwd -d builduser # Delete the buildusers password
         # grep builduser /etc/sudoers || printf 'builduser ALL=(ALL) ALL\n' | tee -a /etc/sudoers # Allow the builduser passwordless sudo
         # sudo -u builduser bash -c 'cd /tmp/ && git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si --noconfirm'
+      tags:
+        - skip_ansible_lint
 - name: Get facts on current container
   community.docker.current_container_facts:
 - name: Install yay packages

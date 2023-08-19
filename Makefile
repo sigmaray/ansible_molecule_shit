@@ -1,5 +1,10 @@
-install-deps:
-	ansible-galaxy collection install community.general
+# install-deps:
+# 	ansible-galaxy collection install community.general
+
+create-venv:
+	virtualenv .venv --python=python3.9
+	pip3 install yamllint ansible-lint ansible molecule-docker
+	ansible-galaxy collection install community.docker
 
 run-local:
 	ansible-playbook playbook.yml --connection=local

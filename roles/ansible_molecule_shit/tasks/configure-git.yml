@@ -18,3 +18,5 @@
   ansible.builtin.shell: |
     git config --global user.name "Stanislav Zaleski"
     git config --global user.email "sigmaray@gmail.com"
+  tags:
+    - skip_ansible_lint

@@ -5,18 +5,18 @@
   ansible.builtin.apt:
     pkg: python3.9
 
-- name: execute python script for Ubuntu/Debian
+- name: Execute python script for Ubuntu/Debian
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
-  script: make-symlinks.py
+  ansible.builtin.script: make-symlinks.py
   args:
     executable: python3.9
   # to get rid of
   # "WARNING  An error occurred during the test sequence action: 'idempotence'"
   changed_when: False
 
-- name: execute python script for Archlinux
+- name: Execute python script for Archlinux
   when: ansible_distribution == 'Archlinux'
-  script: make-symlinks.py
+  ansible.builtin.script: make-symlinks.py
   args:
     executable: python3
   # to get rid of
@@ -24,12 +24,12 @@
   changed_when: False
 
 - name: "Record command output"
-  shell: |
+  ansible.builtin.shell: |
     echo "ls -lah ~:"
     ls -lah ~
   register: content
   changed_when: False 
 
 - name: "Print result of command"
-  debug:
+  ansible.builtin.debug:
     msg: "{{ content.stdout.split('\n') }}"
