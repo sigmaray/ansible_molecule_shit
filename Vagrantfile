@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
     # v.cpus = 4
     # config.vm.network "forwarded_port", id: "ssh", host: 3022, guest: 22
   end
-  config.vm.network "forwarded_port", id: "ssh", host: 3022, guest: 22
+  # config.vm.network "forwarded_port", id: "ssh", host: 3022, guest: 22
 
   # config.vm.provision :shell, :inline => "sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config; sudo systemctl restart sshd;", run: "always"
 end
