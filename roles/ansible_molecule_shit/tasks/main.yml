@@ -3,15 +3,6 @@
 # - name: Example from an Ansible Playbook
 #   ansible.builtin.ping:
 
-# - name: Facts
-#   setup:
-# - name: Dump
-#   delegate_to: localhost
-#   run_once: true
-#   copy:
-#     content: "{{ hostvars[inventory_hostname] | to_nice_json }}"
-#     dest: /tmp/setup-dump.json
-
 - name: Include etckeeper.yml
   ansible.builtin.include_tasks: etckeeper.yml
 - name: Deb specific
@@ -23,8 +14,6 @@
       ansible.builtin.include_tasks: vscode.yml
     - name: Include chrome.yml
       ansible.builtin.include_tasks: chrome.yml
-    - name: Include asdf.yml
-      ansible.builtin.include_tasks: asdf.yml
     - name: Include pgadmin.yml
       ansible.builtin.include_tasks: pgadmin.yml
 - name: Arch specific
@@ -42,5 +31,5 @@
   ansible.builtin.include_tasks: configure-git.yml
 - name: Include asdf.yml
   ansible.builtin.include_tasks: asdf.yml
-# - name: Make symlinks
-#   ansible.builtin.include_tasks: make-symlinks.yml
+# # - name: Make symlinks
+# #   ansible.builtin.include_tasks: make-symlinks.yml
