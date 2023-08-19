@@ -1,16 +1,16 @@
 install-deps:
 	ansible-galaxy collection install community.general
 
-# run-virtualbox:
-# 	ansible-playbook playbook.yml --inventory=./inventory-vagrant.ini
-
 run-local:
 	ansible-playbook playbook.yml --connection=local
+
+# run-virtualbox:
+# 	ansible-playbook playbook.yml --inventory=./inventory-vagrant.ini
 
 molecule-test:
 	molecule test
 
-docker-build:
+docker-build-arch:
 	docker build -t sigma-arch .
 
 run-vagrant-virtualbox-arch:
