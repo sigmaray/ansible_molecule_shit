@@ -80,9 +80,9 @@ jobs:
       #   run: sudo vagrant up --provider=libvirt
       - name: run ansible
         run: |
-          # VAGRANT_VAGRANTFILE=Vagrantfile-debian vagrant destroy --force
-          VAGRANT_VAGRANTFILE=Vagrantfile-debian sudo vagrant up
+          # VAGRANT_VAGRANTFILE=Vagrantfile-libvirt-ubuntu vagrant destroy --force
+          VAGRANT_VAGRANTFILE=Vagrantfile-libvirt-ubuntu sudo vagrant up --provider=libvirt
           ansible-playbook playbook.yml --inventory=./inventory-vagrant.ini
-          # VAGRANT_VAGRANTFILE=Vagrantfile-debian vagrant destroy --force
+          # VAGRANT_VAGRANTFILE=Vagrantfile-libvirt-ubuntu vagrant destroy --force
       - name: Destroy vagrant box
-        run: sudo vagrant destroy --force
+        run: VAGRANT_VAGRANTFILE=Vagrantfile-libvirt-ubuntu sudo vagrant destroy --force
