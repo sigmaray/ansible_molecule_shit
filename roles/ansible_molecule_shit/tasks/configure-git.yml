@@ -1,4 +1,4 @@
-
+---
 - name: Install git for Ubuntu/Debian
   become: true
   when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
