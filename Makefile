@@ -3,7 +3,7 @@
 
 create-venv:
 	virtualenv .venv --python=python3.9
-	pip3 install yamllint ansible-lint ansible molecule-docker
+	pip3 install yamllint ansible-lint ansible molecule-docker molecule-plugins
 	ansible-galaxy collection install community.docker
 
 run-local:
@@ -18,14 +18,14 @@ molecule-test:
 docker-build-arch:
 	docker build -t sigma-arch .
 
-run-vagrant-virtualbox-arch:
+run-vagrant-arch:
 	VAGRANT_VAGRANTFILE=Vagrantfile-arch vagrant destroy --force
 	VAGRANT_VAGRANTFILE=Vagrantfile-arch vagrant up
 	ansible-playbook playbook.yml --inventory=./inventory-vagrant.ini
 	VAGRANT_VAGRANTFILE=Vagrantfile-arch vagrant destroy --force
 
-run-vagrant-virtualbox-debian:
-	VAGRANT_VAGRANTFILE=Vagrantfile-debian vagrant destroy --force
-	VAGRANT_VAGRANTFILE=Vagrantfile-debian vagrant up
+run-vagrant-ubuntu:
+	VAGRANT_VAGRANTFILE=Vagrantfile-ubuntu vagrant destroy --force
+	VAGRANT_VAGRANTFILE=Vagrantfile-ubuntu vagrant up
 	ansible-playbook playbook.yml --inventory=./inventory-vagrant.ini
-	VAGRANT_VAGRANTFILE=Vagrantfile-debian vagrant destroy --force
+	VAGRANT_VAGRANTFILE=Vagrantfile-ubuntu vagrant destroy --force
