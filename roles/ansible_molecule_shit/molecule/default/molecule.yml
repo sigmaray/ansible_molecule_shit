@@ -1,53 +1,44 @@
 ---
-dependency:
-  name: galaxy
-driver:
-  name: docker
-platforms:
-  - name: debian-bookmworm
-    image: "ghcr.io/hspaans/molecule-container-debian:bookworm"
-    pre_build_image: true
-  - name: ubuntu-2204
-    image: nmusatti/ubuntu2204-pys
-    pre_build_image: true
-  - name: archlinux
-    image: carlodepieri/docker-archlinux-ansible:latest
-    # image: sigma-arch:latest
-    pre_build_image: true
-provisioner:
-  name: ansible
-  inventory:
-    host_vars:
-      archlinux:
-        ansible_user: ansible
-verifier:
-  name: ansible
-lint: |
-  set -e
-  yamllint .
-  ansible-lint .
-
-# TODO: remove this rubbish
+# dependency:
+#   name: galaxy
 # driver:
-#   name: vagrant
-#   provider:
-#     name: virtualbox
+#   name: docker
 # platforms:
-#   - name: instance
-#     box: ubuntu/jammy64
-#     # box: ubuntu
-#     memory: 1024
-#     cpus: 2
-#     # interfaces:
-#     #   # `network_name` is the required identifier, other keys map to arguments.
-#     #   - network_name: private_network
-#     #     ip: 192.168.50.20
-#     #     guest: 80
-#     #     host: 8080
-#     # config_options:
-#     #   ssh.keep_alive: yes
-#     #   ssh.remote_user: "'vagrant'"
+#   - name: debian-bookmworm
+#     image: "ghcr.io/hspaans/molecule-container-debian:bookworm"
+#     pre_build_image: true
+#   - name: ubuntu-2204
+#     image: nmusatti/ubuntu2204-pys
+#     pre_build_image: true
+#   - name: archlinux
+#     image: carlodepieri/docker-archlinux-ansible:latest
+#     # image: sigma-arch:latest
+#     pre_build_image: true
 # provisioner:
 #   name: ansible
-# # verifier:
-# #   name: ansible
+#   inventory:
+#     host_vars:
+#       archlinux:
+#         ansible_user: ansible
+# verifier:
+#   name: ansible
+# lint: |
+#   set -e
+#   yamllint .
+#   ansible-lint .
+
+driver:
+  name: vagrant
+platforms:
+  - name: ubuntu/jammy64
+    box: ubuntu/jammy64
+    memory: 4096
+    cpus: 2
+  - name: archlinux
+    box: archlinux/archlinux
+    memory: 4096
+    cpus: 2
+  - name: debian/bookworm64
+    box: debian/bookworm64
+    memory: 4096
+    cpus: 2
