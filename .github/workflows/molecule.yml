@@ -12,7 +12,8 @@ on: [push]
 
 jobs:
   molecule:
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    runs-on: macos-10.15
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -31,12 +32,20 @@ jobs:
 
       # - name: Run molecule
       #   run: "cd roles/ansible_molecule_shit && molecule test"
-               
+
       - name: Molecule
         uses: gofrolist/molecule-action@v2
         with:
           molecule_command: test
-          molecule_args: -d docker
+          # molecule_args: -d docker
           molecule_working_dir: roles/ansible_molecule_shit
         env:
           ANSIBLE_FORCE_COLOR: '1'
+
+      - name: Cache Vagrant boxes
+        uses: actions/cache@v2
+        with:
+          path: ~/.vagrant.d/boxes
+          key: ${{ runner.os }}-vagrant-${{ hashFiles('Vagrantfile') }}
+          restore-keys: |
+            ${{ runner.os }}-vagrant-
