@@ -60,8 +60,9 @@
     pkg:
       - libwxgtk3.2-dev
       - libwxgtk-webview3.2-dev
-- name: Install Ubuntu specific Erlang deps
+- name: Install Ubuntu specific Erlang deps  
   when: ansible_distribution == 'Ubuntu'
+  become: true
   ansible.builtin.apt:
     pkg:
       - libwxgtk3.0-gtk3-dev
