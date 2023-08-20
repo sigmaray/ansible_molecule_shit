@@ -1,0 +1,17 @@
+QSocketNotifier: Can only be used with threads started with QThread
+qt.qpa.wayland: Wayland does not support QWindow::requestActivate()
+kf.kio.widgets: Cannot read information about filesystem under path "/home/foobar/.cache/thumbnails/"
+QSocketNotifier: Can only be used with threads started with QThread
+QSocketNotifier: Can only be used with threads started with QThread
+qt.qpa.wayland: Wayland does not support QWindow::requestActivate()
+kf.kio.widgets: Cannot read information about filesystem under path "/home/foobar/.cache/thumbnails/"
+QSocketNotifier: Can only be used with threads started with QThread
+kf.kio.widgets: Cannot read information about filesystem under path "/home/foobar/.cache/thumbnails/"
+kf.kio.widgets: Cannot read information about filesystem under path "/home/foobar/.cache/thumbnails/"
+kf.kio.widgets: Cannot read information about filesystem under path "/home/foobar/.cache/thumbnails/"
+kf.kio.widgets.kdirmodel: No node found for item that was just removed: QUrl("file:///home/foobar/r/myprojects/ansible_molecule_shit/.Makefile.kate-swp")
+kf.kio.widgets.kdirmodel: No node found for item that was just removed: QUrl("file:///home/foobar/r/myprojects/ansible_molecule_shit/.Makefile.kate-swp")
+kf.kio.widgets.kdirmodel: No node found for item that was just removed: QUrl("file:///home/foobar/r/myprojects/ansible_molecule_shit/.Makefile.kate-swp")
+kf.kio.widgets.kdirmodel: No node found for item that was just removed: QUrl("file:///home/foobar/r/myprojects/ansible_molecule_shit/.Makefile.kate-swp")
+kf.kio.widgets.kdirmodel: No node found for item that was just removed: QUrl("file:///home/foobar/r/myprojects/ansible_molecule_shit/.Makefile.kate-swp")
+kf.kio.widgets.kdirmodel: No node found for item that was just removed: QUrl("file:///home/foobar/r/myprojects/ansible_molecule_shit/.Makefile.kate-swp")
