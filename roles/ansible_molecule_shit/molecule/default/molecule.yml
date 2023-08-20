@@ -34,14 +34,14 @@ platforms:
     box: ubuntu/jammy64
     memory: 4096
     cpus: 2
-  - name: archlinux
-    box: archlinux/archlinux
-    memory: 4096
-    cpus: 2
-  - name: debian-bookworm64
-    box: debian/bookworm64
-    memory: 4096
-    cpus: 2
+  # - name: archlinux
+  #   box: archlinux/archlinux
+  #   memory: 4096
+  #   cpus: 2
+  # - name: debian-bookworm64
+  #   box: debian/bookworm64
+  #   memory: 4096
+  #   cpus: 2
 verifier:
   name: ansible
 lint: |

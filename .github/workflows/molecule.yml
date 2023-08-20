@@ -47,10 +47,10 @@ jobs:
       #     ## limits ssh access and adds the ssh public keys of the listed GitHub users
       #     limit-access-to-users: sigmaray
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-        with:
-          limit-access-to-actor: true
+      # - name: Setup tmate session
+      #   uses: mxschmitt/action-tmate@v3
+      #   with:
+      #     limit-access-to-actor: true
 
       - name: Run molecule
         run: "cd roles/ansible_molecule_shit && molecule test"
