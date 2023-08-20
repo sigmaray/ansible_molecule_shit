@@ -3,7 +3,7 @@
   hosts: all
   pre_tasks:
     - name: Install sudo for debian
-      become: true
+      # become: true
       when: ansible_os_family == 'Debian'
       ansible.builtin.apt:
         name: sudo
