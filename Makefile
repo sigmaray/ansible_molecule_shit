@@ -7,7 +7,7 @@ create-venv:
 	ansible-galaxy collection install community.docker
 
 run-local:
-	ansible-playbook playbook.yml --connection=local
+	ansible-playbook --connection=local --inventory 127.0.0.1, playbook.yml
 
 # run-virtualbox:
 # 	ansible-playbook playbook.yml --inventory=./inventory-vagrant.ini
